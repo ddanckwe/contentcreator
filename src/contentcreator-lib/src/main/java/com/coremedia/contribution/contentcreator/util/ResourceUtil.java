@@ -1,5 +1,7 @@
 package com.coremedia.contribution.contentcreator.util;
 
+import org.apache.commons.io.IOUtils;
+
 import java.io.*;
 
 /**
@@ -8,12 +10,33 @@ import java.io.*;
 public class ResourceUtil {
 
   /**
+   * Reads a byte array from the given classpath resource.
+   * @param resourcePath The path to the resource.
+   * @return
+   * @throws IOException
+   */
+  public static byte[] readBytesFromClasspathResource(String resourcePath) throws IOException {
+    return IOUtils.toByteArray(resourcePath.getClass().getResourceAsStream(resourcePath));
+  }
+
+  /**
+   * Reads a byte array from the given filesystem resource.
+   * @param resourcePath The path to the resource.
+   * @return
+   * @throws IOException
+   */
+  public static byte[] readBytesFromFileSystemResource(String resourcePath) throws IOException {
+    File file = new File(resourcePath);
+    return IOUtils.toByteArray(new FileInputStream(file));
+  }
+  
+  /**
    * Reads a string from the given classpath resource.
    *
    * @param resourcePath The path to the resource.
    * @return
    */
-  public static String readClasspathResource(String resourcePath) throws IOException {
+  public static String readStringFromClasspathResource(String resourcePath) throws IOException {
     InputStream is = resourcePath.getClass().getResourceAsStream(resourcePath);
     InputStreamReader streamReader = new InputStreamReader(is);
     return readResource(streamReader);
@@ -24,7 +47,7 @@ public class ResourceUtil {
    * @param resourcePath The path to the resource.
    * @return
    */
-  public static String readFileSystemResource(String resourcePath) throws IOException {
+  public static String readStringFromFileSystemResource(String resourcePath) throws IOException {
     FileReader fileReader = new FileReader(resourcePath);
     return readResource(fileReader);
   }

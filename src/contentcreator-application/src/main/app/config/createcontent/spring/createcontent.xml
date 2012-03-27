@@ -69,7 +69,6 @@
   <!-- Add your custom content creation strategies here. -->
 
 
-
   <!-- Folder strategies -->
   <bean name="defaultFolderStrategy" class="com.coremedia.contribution.contentcreator.strategy.DefaultFolderStrategy">
     <property name="folder" value="/generatedContent"/>
@@ -342,6 +341,13 @@
   </bean>
 
   <!-- Blob property populators -->
+  <bean name="fileResourceBlobPropertyPopulator"
+        class="com.coremedia.contribution.contentcreator.populator.ResourceBlobPropertyPopulator">
+    <property name="contentType" value="text/plain"/>
+    <property name="blobService" ref="blobService"/>
+    <property name="resourcePath" value="file:/sample.txt"/>
+  </bean>
+
   <bean name="flickrImagePropertyPopulator"
         class="com.coremedia.contribution.contentcreator.populator.demo.FlickrImagePropertyPopulator"
         parent="abstractPropertyPopulator">
