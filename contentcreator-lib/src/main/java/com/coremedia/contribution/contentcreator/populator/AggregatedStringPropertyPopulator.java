@@ -5,7 +5,7 @@ import com.coremedia.cap.content.Content;
 import java.util.List;
 
 /**
- * A property populator that aggregates a list of populators and fills the given property.
+ * A property populator that aggregates a list of string populators to fill the given property.
  */
 public class AggregatedStringPropertyPopulator extends StringPropertyPopulator {
 

@@ -41,12 +41,12 @@ public class ResourceRichtextPropertyPopulator extends RichtextPropertyPopulator
 
       if (resourcePath.startsWith(FILESYSTEM_LOCATOR_PREFIX)) {
         // Read file system resource
-        data = ResourceUtil.readFileSystemResource(resourcePath.replace(FILESYSTEM_LOCATOR_PREFIX, ""));
+        data = ResourceUtil.readStringFromFileSystemResource(resourcePath.replace(FILESYSTEM_LOCATOR_PREFIX, ""));
       }
 
       if (resourcePath.startsWith(CLASSPATH_LOCATOR_PREFIX)) {
         // Read classpath resource
-        data = ResourceUtil.readClasspathResource(resourcePath.replace(CLASSPATH_LOCATOR_PREFIX, ""));
+        data = ResourceUtil.readStringFromClasspathResource(resourcePath.replace(CLASSPATH_LOCATOR_PREFIX, ""));
       }
 
     } catch (IOException e) {
