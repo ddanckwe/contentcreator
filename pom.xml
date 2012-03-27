@@ -34,9 +34,9 @@
   </modules>
 
   <scm>
-    <connection>scm:svn:https://contributions.coremedia.com/svn-shared/contentcreator/trunk</connection>
-    <developerConnection>scm:svn:https://contributions.coremedia.com/svn-shared/contentcreator/trunk</developerConnection>
-    <url>https://contributions.coremedia.com/svn-shared/contentcreator/trunk</url>
+    <connection>scm:svn:https://contributions.coremedia.com/svn-shared/contentcreator/trunk/src</connection>
+    <developerConnection>scm:svn:https://contributions.coremedia.com/svn-shared/contentcreator/trunk/src</developerConnection>
+    <url>https://contributions.coremedia.com/svn-shared/contentcreator/trunk/src</url>
   </scm>
 
   <distributionManagement>
