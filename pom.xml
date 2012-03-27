@@ -4,7 +4,7 @@
 
   <groupId>com.coremedia.contribution.contentcreator</groupId>
   <artifactId>contentcreator</artifactId>
-  <version>1.0</version>
+  <version>1.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Content Creator Tool</name>
@@ -34,9 +34,9 @@
   </modules>
 
   <scm>
-    <connection>scm:svn:https://contributions.coremedia.com/svn-shared/contentcreator/tags/contentcreator-1.0</connection>
-    <developerConnection>scm:svn:https://contributions.coremedia.com/svn-shared/contentcreator/tags/contentcreator-1.0</developerConnection>
-    <url>https://contributions.coremedia.com/svn-shared/contentcreator/tags/contentcreator-1.0</url>
+    <connection>scm:svn:https://contributions.coremedia.com/svn-shared/contentcreator/trunk/src</connection>
+    <developerConnection>scm:svn:https://contributions.coremedia.com/svn-shared/contentcreator/trunk/src</developerConnection>
+    <url>https://contributions.coremedia.com/svn-shared/contentcreator/trunk/src</url>
   </scm>
 
   <distributionManagement>
