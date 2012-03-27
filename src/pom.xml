@@ -35,19 +35,19 @@
   </modules>
 
   <scm>
-    <connection>scm:svn:https://contributions.coremedia.com/svn-shared/contentcreator/tags/contentcreator-${project.version}</connection>
-    <developerConnection>scm:svn:https://contributions.coremedia.com/svn-shared/contentcreator/tags/contentcreator-${project.version}</developerConnection>
-    <url>https://contributions.coremedia.com/svn-shared/contentcreator/tags/contentcreator-${project.version}</url>
+    <connection>scm:svn:https://contributions.coremedia.com/svn-shared/contentcreator/trunk</connection>
+    <developerConnection>scm:svn:https://contributions.coremedia.com/svn-shared/contentcreator/trunk</developerConnection>
+    <url>https://contributions.coremedia.com/svn-shared/contentcreator/trunk</url>
   </scm>
 
   <distributionManagement>
     <repository>
-      <id>contributions-releases</id>
+      <id>coremedia.contributions.releases</id>
       <name>Contributions Deployment to Contributions Repository</name>
       <url>https://repository.coremedia.com/nexus/content/repositories/contributions-releases/</url>
     </repository>
     <snapshotRepository>
-      <id>contributions-snapshots</id>
+      <id>coremedia.contributions.snapshots</id>
       <name>CoreMedia Contributions Snapshots</name>
       <url>https://repository.coremedia.com/nexus/content/repositories/contributions-snapshots/</url>
     </snapshotRepository>
