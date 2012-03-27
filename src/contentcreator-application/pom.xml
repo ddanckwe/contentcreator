@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.coremedia.contribution.contentcreator</groupId>
+    <artifactId>contentcreator</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>contentcreator-application</artifactId>
+  <packaging>coremedia-application</packaging>
+
+  <name>Content Creator - application</name>
+
+  <dependencies>
+    <!--our library containing the clients main class-->
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>contentcreator-lib</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <!--the runtime artifact containing the cm.exe/cm.sh infrastructure-->
+    <dependency>
+      <groupId>com.coremedia.cms</groupId>
+      <artifactId>application-runtime</artifactId>
+      <type>coremedia-application</type>
+    </dependency>
+      <dependency>
+      <groupId>com.coremedia.cms</groupId>
+      <artifactId>application-runtime</artifactId>
+      <type>pom</type>
+    </dependency>
+
+    <dependency>
+      <groupId>com.coremedia.cms</groupId>
+      <artifactId>cap-unified-api</artifactId>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <finalName>contentcreator</finalName>
+  </build>
+
+</project>
