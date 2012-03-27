@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+  <import resource="uapi-services.xml"/>
+
+
+  <bean name="strategiesHolder" class="com.coremedia.contribution.contentcreator.StrategiesHolder">
+    <property name="defaultStrategy" ref="defaultCreationStrategy"/>
+    <property name="strategies">
+      <util:map>
+        <!-- Register all strategies here
+        <entry key="ContentType" value-ref="creationStrategyBean"/>
+        -->
+        <entry key="CMArticle" value-ref="articleCreationStrategy"/>
+      </util:map>
+    </property>
+  </bean>
+
+  <!--
+  ===============
+     Strategies
+  ===============
+  -->
+
+  <bean name="abstractContentCreationStrategy" abstract="true"
+        class="com.coremedia.contribution.contentcreator.strategy.AbstractContentCreationStrategy">
+    <property name="contentRepository" ref="contentRepository"/>
+  </bean>
+
+  <bean name="defaultCreationStrategy"
+        class="com.coremedia.contribution.contentcreator.strategy.DefaultContentCreationStrategy"
+        parent="abstractContentCreationStrategy">
+    <property name="folderStrategy" ref="defaultFolderStrategy"/>
+    <property name="namingStrategy" ref="defaultNamingStrategy"/>
+  </bean>
+
+  <!-- Strategy used for article creation -->
+  <bean name="articleCreationStrategy"
+        class="com.coremedia.contribution.contentcreator.strategy.SubfolderContentCreationStrategy"
+        parent="abstractContentCreationStrategy">
+    <property name="contentType" value="CMArticle"/>
+    <property name="folderStrategy" ref="numberedFolderStrategy"/>
+    <property name="folderPrefix" value="Articles"/>
+    <property name="maxItemsPerFolder" value="100"/>
+    <property name="namingStrategy">
+      <bean class="com.coremedia.contribution.contentcreator.strategy.DefaultNamingStrategy">
+        <property name="namePrefix" value="Article"/>
+        <property name="nameTemplate" value="{3}-{1}"/>
+      </bean>
+    </property>
+    <property name="propertyPopulators">
+      <util:map>
+        <entry key="teaserTitle" value-ref="typeAndIdTitlePropertyPopulator"/>
+        <entry key="teaserText" value-ref="smallRandomLoremIpsumRichtextPropertyPopulator"/>
+        <entry key="segment" value-ref="stringPropertyPopulator"/>
+        <entry key="title" value-ref="typeAndIdTitlePropertyPopulator"/>
+        <!--<entry key="segment" value-ref="defaultSegmentPropertyPopulator"/>-->
+        <entry key="detailText" value-ref="largeRandomLoremIpsumRichtextPropertyPopulator"/>
+        <entry key="media" value-ref="singlePictureQueryPopulator"/>
+        <entry key="thumbnail" value-ref="flickrImagePropertyPopulator"/>
+      </util:map>
+    </property>
+  </bean>
+
+  <!-- Add your custom content creation strategies here. -->
+
+
+
+  <!-- Folder strategies -->
+  <bean name="defaultFolderStrategy" class="com.coremedia.contribution.contentcreator.strategy.DefaultFolderStrategy">
+    <property name="folder" value="/generatedContent"/>
+  </bean>
+
+  <bean name="numberedFolderStrategy" class="com.coremedia.contribution.contentcreator.strategy.NumberedFolderStrategy">
+    <property name="folderPropertiesTemplatePath" value="/performance-test/_assets/_folderProperties"/>
+  </bean>
+
+
+  <!-- Naming strategies -->
+  <bean name="defaultNamingStrategy" class="com.coremedia.contribution.contentcreator.strategy.DefaultNamingStrategy"/>
+
+
+  <!--
+  ===============
+     Populators
+  ===============
+  -->
+
+  <bean name="abstractPropertyPopulator" abstract="true"
+        class="com.coremedia.contribution.contentcreator.populator.AbstractPropertyPopulator">
+    <property name="logger" ref="logger"/>
+  </bean>
+
+  <!-- String property populators -->
+  <bean name="stringPropertyPopulator"
+        class="com.coremedia.contribution.contentcreator.populator.StringPropertyPopulator">
+    <description>
+      A simple property populator that fills the property field with the given string value.
+    </description>
+    <property name="value" value="Sample"/>
+  </bean>
+
+
+  <bean name="typeAndIdTitlePropertyPopulator"
+        class="com.coremedia.contribution.contentcreator.populator.AggregatedStringPropertyPopulator">
+    <description>
+      A string field populator that fills the given property with type and id of the created content.
+      Example: CMarticle-123
+    </description>
+    <property name="separator" value="-"/>
+    <property name="populators">
+      <util:list>
+        <ref bean="typeStringPropertyPopulator"/>
+        <ref bean="idStringPropertyPopulator"/>
+      </util:list>
+    </property>
+  </bean>
+
+  <bean name="idStringPropertyPopulator"
+        class="com.coremedia.contribution.contentcreator.populator.IdStringPropertyPopulator">
+    <description>
+      A simple string property populator that fills the given property with the content id.
+    </description>
+  </bean>
+
+  <bean name="typeStringPropertyPopulator"
+        class="com.coremedia.contribution.contentcreator.populator.TypeStringPropertyPopulator">
+    <description>
+      A simple string property populator that fills the given property with the content type.
+    </description>
+  </bean>
+
+  <bean name="defaultSegmentPropertyPopulator"
+        class="com.coremedia.contribution.contentcreator.populator.SegmentStringPropertyPopulator">
+    <description>
+      A simple property populator that uses the document type and id
+      to create a segment string for the specified property field.
+    </description>
+  </bean>
+
+
+  <!-- Date property populators -->
+  <bean name="currentDatePropertyPopulator"
+        class="com.coremedia.contribution.contentcreator.populator.DatePropertyPopulator">
+    <description>
+      A simple property populator that fills the property field with the given calendar value.
+      If no date is specified, the current date will be used.
+    </description>
+  </bean>
+
+
+  <bean name="myDatePropertyPopulator"
+        class="com.coremedia.contribution.contentcreator.populator.DatePropertyPopulator">
+    <description>
+      Date field populator with specified date.
+    </description>
+    <property name="value" value="2011-01-05 12:00:05"/>
+  </bean>
+
+
+  <!-- Boolean property populator -->
+  <bean name="yesPropertyPopulator"
+        class="com.coremedia.contribution.contentcreator.populator.BooleanPropertyPopulator">
+    <description>
+      Boolean field populator that fills the property field with 'true'.
+    </description>
+    <property name="value" value="true"/>
+  </bean>
+
+  <bean name="noPropertyPopulator"
+        class="com.coremedia.contribution.contentcreator.populator.BooleanPropertyPopulator">
+    <description>
+      Boolean field populator that fills the property field with 'false'.
+    </description>
+    <property name="value" value="false"/>
+  </bean>
+
+  <!-- Integer property populator -->
+  <bean name="integerPropertyPopulator"
+        class="com.coremedia.contribution.contentcreator.populator.IntPropertyPopulator"
+        parent="abstractPropertyPopulator">
+    <description>
+      A simple property populator that fills the property field with the given integer value.
+    </description>
+    <property name="value" value="123"/>
+  </bean>
+
+  <bean name="randomIntPropertyPopulator"
+        class="com.coremedia.contribution.contentcreator.populator.RandomIntPropertyPopulator">
+    <description>
+      Integer property populator that fills the property field with a random integer value.
+      Min and max values can be specified. Default values are min=0 and max=100.
+    </description>
+    <property name="min" value="0"/>
+    <property name="max" value="100"/>
+  </bean>
+
+  <!-- LinkList property populators -->
+  <bean name="picturesQueryPopulator"
+        class="com.coremedia.contribution.contentcreator.populator.ContentQueryLinkListPropertyPopulator">
+    <description>
+      A LinkListPopulator that fills the given linklist property with values found by a content query.
+
+      This example uses a query for CMPicture documents below /_assets/pictures to fill the given property
+      with a maximum of three random pictures returned by the query.
+    </description>
+    <property name="queryService" ref="queryService"/>
+    <property name="query" value="TYPE = CMPicture AND BELOW PATH '/_assets/pictures'"/>
+    <property name="shuffle" value="true"/>
+    <property name="maxUseResultItems" value="3"/>
+  </bean>
+
+  <bean name="singlePictureQueryPopulator"
+        class="com.coremedia.contribution.contentcreator.populator.ContentQueryLinkListPropertyPopulator">
+    <description>
+      A LinkListPopulator that fills the given linklist property with values found by a content query.
+
+      This example uses a query for CMPicture documents below /_assets/pictures to fill the given property
+      with a random picture returned by the query.
+    </description>
+    <property name="queryService" ref="queryService"/>
+    <property name="query" value="TYPE = CMPicture AND BELOW PATH '/_assets/pictures'"/>
+    <property name="shuffle" value="true"/>
+  </bean>
+
+  <bean name="multiResPicturesQueryPopulator"
+        class="com.coremedia.contribution.contentcreator.populator.ContentQueryLinkListPropertyPopulator">
+    <property name="queryService" ref="queryService"/>
+    <property name="query" value="TYPE = CMMultiResPicture AND BELOW PATH '/_assets/pictures'"/>
+    <property name="shuffle" value="true"/>
+    <property name="maxUseResultItems" value="10"/>
+  </bean>
+
+  <bean name="randomMultiResPicturesQueryPopulator"
+        class="com.coremedia.contribution.contentcreator.populator.RandomContentQueryLinkListPropertyPopulator">
+    <property name="queryService" ref="queryService"/>
+    <property name="query" value="TYPE = CMMultiResPicture AND BELOW PATH '/_assets/pictures'"/>
+    <property name="shuffle" value="true"/>
+    <property name="min" value="1"/>
+    <property name="max" value="15"/>
+  </bean>
+
+  <!-- XML property populators -->
+  <bean name="xmlPropertyPopulator"
+        class="com.coremedia.contribution.contentcreator.populator.XmlPropertyPopulator">
+    <description>
+      A simple property populator that fills the property field with the given xml markup value.
+      If you want to fill a richtext property, use the RichtextPropertyPopulator instead.
+    </description>
+    <property name="value">
+      <value>
+        <![CDATA[
+				<div xmlns="http://www.coremedia.com/2003/richtext-1.0" xmlns:xlink="http://www.w3.org/1999/xlink"><p>Sample text</p></div>
+			  ]]>
+      </value>
+    </property>
+  </bean>
+
+  <bean name="richtextPropertyPopulator"
+        class="com.coremedia.contribution.contentcreator.populator.RichtextPropertyPopulator">
+    <description>
+      XmlPropertyPopulator that uses the coremedia-richtext-1.0 grammar.
+      The populator basicly wraps the given richtext in the markup prefix and suffix specified by the grammar.
+    </description>
+    <property name="value">
+      <value>
+        <![CDATA[
+				This is a short text for all articles.
+			  ]]>
+      </value>
+    </property>
+  </bean>
+
+  <bean name="classpathLoremRichtextPropertyPopulator"
+        class="com.coremedia.contribution.contentcreator.populator.ResourceRichtextPropertyPopulator"
+        parent="abstractPropertyPopulator">
+    <description>
+      A richtext property populator that fills the property field with richtext read from a file or classpath resource.
+      Make sure to specify 'classpath:' or 'file:' for the resource.
+
+      This is an example for a classpath resource 'lorem-ipsum.txt'.
+    </description>
+    <property name="resourcePath" value="classpath:/lorem-ipsum.txt"/>
+  </bean>
+
+  <bean name="filesystemLoremRichtextPropertyPopulator"
+        class="com.coremedia.contribution.contentcreator.populator.ResourceRichtextPropertyPopulator"
+        parent="abstractPropertyPopulator">
+    <description>
+      A richtext property populator that fills the property field with richtext read from a file or classpath resource.
+      Make sure to specify 'classpath:' or 'file:' for the resource.
+
+      This is an example for a file system resource 'sample.txt'.
+    </description>
+    <property name="resourcePath" value="file:assets/richtext/sample.txt"/>
+  </bean>
+
+  <bean name="smallRandomLoremIpsumRichtextPropertyPopulator"
+        class="com.coremedia.contribution.contentcreator.populator.RandomRichtextPropertyPopulator"
+        parent="abstractPropertyPopulator">
+    <description>
+      A richtext property populator that fills the given property with a random number of words from a given resource.
+
+      This example populator uses the lorem-ipsum.txt classpath resource to fill the given property
+      with a random number of words in range 50 to 100.
+    </description>
+    <property name="resourcePath" value="classpath:/lorem-ipsum.txt"/>
+    <property name="minWords" value="50"/>
+    <property name="maxWords" value="100"/>
+  </bean>
+
+  <bean name="mediumRandomLoremIpsumRichtextPropertyPopulator"
+        class="com.coremedia.contribution.contentcreator.populator.RandomRichtextPropertyPopulator"
+        parent="abstractPropertyPopulator">
+    <description>
+      A richtext property populator that fills the given property with a random number of words from a given resource.
+
+      This example populator uses the lorem-ipsum.txt classpath resource to fill the given property
+      with a random number of words in range 100 to 500.
+    </description>
+    <property name="resourcePath" value="classpath:/lorem-ipsum.txt"/>
+    <property name="minWords" value="100"/>
+    <property name="maxWords" value="500"/>
+  </bean>
+
+  <bean name="largeRandomLoremIpsumRichtextPropertyPopulator"
+        class="com.coremedia.contribution.contentcreator.populator.RandomRichtextPropertyPopulator"
+        parent="abstractPropertyPopulator">
+    <description>
+      A richtext property populator that fills the given property with a random number of words from a given resource.
+
+      This example populator uses the lorem-ipsum.txt classpath resource to fill the given property
+      with a random number of words in range 500 to 2000.
+    </description>
+    <property name="resourcePath" value="classpath:/lorem-ipsum.txt"/>
+    <property name="minWords" value="500"/>
+    <property name="maxWords" value="2000"/>
+  </bean>
+
+  <!-- Blob property populators -->
+  <bean name="flickrImagePropertyPopulator"
+        class="com.coremedia.contribution.contentcreator.populator.demo.FlickrImagePropertyPopulator"
+        parent="abstractPropertyPopulator">
+    <description>
+      Blob property populator that fills a given blob property with a random image returned from a flickr.com search.
+
+      This sample performs a search for 'apple' on flickr.com and
+      uses a random image from the search result for the blob.
+    </description>
+    <property name="blobService" ref="blobService"/>
+    <property name="searchTerm" value="apple"/>
+  </bean>
+
+</beans>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="uapiConnection" class="com.coremedia.contribution.contentcreator.ContentCreator"
+        factory-method="getUapiConnection"/>
+
+  <bean id="contentRepository" class="com.coremedia.cap.content.ContentRepository"
+        factory-bean="uapiConnection" factory-method="getContentRepository"/>
+
+  <bean id="queryService" class="com.coremedia.cap.content.query.QueryService"
+        factory-bean="contentRepository" factory-method="getQueryService"/>
+
+  <bean id="searchService" class="com.coremedia.cap.content.search.SearchService"
+        factory-bean="contentRepository" factory-method="getSearchService"/>
+
+  <bean id="blobService" class="com.coremedia.cap.common.BlobService"
+        factory-bean="uapiConnection" factory-method="getBlobService"/>
+
+  <bean id="logger" class="com.coremedia.contribution.contentcreator.ContentCreator"
+        factory-method="getLogger"/>
+
+</beans>
