@@ -44,6 +44,11 @@ public abstract class AbstractContentCreationStrategy implements ContentCreation
     return contentRepository;
   }
 
+  /**
+   * Flag that determines, whether the created content should be checked in or not. (default=true)
+   */
+  protected boolean checkIn = true;
+
 
   @Required
   public void setContentRepository(ContentRepository contentRepository) {
@@ -82,6 +87,14 @@ public abstract class AbstractContentCreationStrategy implements ContentCreation
     this.propertyPopulators = propertyPopulators;
   }
 
+  public boolean isCheckIn() {
+    return checkIn;
+  }
+
+  public void setCheckIn(boolean checkin) {
+    this.checkIn = checkin;
+  }
+
   public Content doCreateContent() {
     String folderPath = getFolderStrategy().getFolderPath();
 
@@ -102,7 +115,22 @@ public abstract class AbstractContentCreationStrategy implements ContentCreation
       applyFieldPopulators(createdContent);
     }
 
+    // Check in the created content
+    if (isCheckIn()) {
+      doCheckIn(createdContent);
+    }
+
     return createdContent;
+  }
+
+  /**
+   * Check in the given content.
+   * @param content The content to check in.
+   */
+  protected void doCheckIn(Content content) {
+    if (content.isCheckedOut()) {
+      content.checkIn();
+    }
   }
 
   protected void applyFieldPopulators(Content content) {

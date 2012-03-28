@@ -36,6 +36,7 @@
         parent="abstractContentCreationStrategy">
     <property name="folderStrategy" ref="defaultFolderStrategy"/>
     <property name="namingStrategy" ref="defaultNamingStrategy"/>
+    <property name="checkIn" value="true"/>
   </bean>
 
   <!-- Strategy used for article creation -->
@@ -43,6 +44,7 @@
         class="com.coremedia.contribution.contentcreator.strategy.SubfolderContentCreationStrategy"
         parent="abstractContentCreationStrategy">
     <property name="contentType" value="CMArticle"/>
+    <property name="checkIn" value="true"/>
     <property name="folderStrategy" ref="numberedFolderStrategy"/>
     <property name="folderPrefix" value="Articles"/>
     <property name="maxItemsPerFolder" value="100"/>
@@ -56,12 +58,11 @@
       <util:map>
         <entry key="teaserTitle" value-ref="typeAndIdTitlePropertyPopulator"/>
         <entry key="teaserText" value-ref="smallRandomLoremIpsumRichtextPropertyPopulator"/>
-        <entry key="segment" value-ref="stringPropertyPopulator"/>
         <entry key="title" value-ref="typeAndIdTitlePropertyPopulator"/>
-        <!--<entry key="segment" value-ref="defaultSegmentPropertyPopulator"/>-->
+        <entry key="segment" value-ref="defaultSegmentPropertyPopulator"/>
         <entry key="detailText" value-ref="largeRandomLoremIpsumRichtextPropertyPopulator"/>
         <entry key="media" value-ref="singlePictureQueryPopulator"/>
-        <entry key="thumbnail" value-ref="flickrImagePropertyPopulator"/>
+        <!--<entry key="thumbnail" value-ref="flickrImagePropertyPopulator"/>-->
       </util:map>
     </property>
   </bean>

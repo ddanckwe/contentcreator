@@ -154,9 +154,6 @@ public class ContentCreator extends AbstractUAPIClient {
     while (copiesSoFar < numberOfCopies) {
       Content createdContent = contentCreationStrategy.createContent();
       if (createdContent != null) {
-        if (createdContent.isCheckedOut()) {
-          createdContent.checkIn();
-        }
         getOut().info("  Content " + createdContent.getId() + " - '" + createdContent.getPath() + "' created.");
       }
 
