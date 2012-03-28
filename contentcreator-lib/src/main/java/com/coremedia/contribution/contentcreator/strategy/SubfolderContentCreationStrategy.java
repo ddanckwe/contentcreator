@@ -81,6 +81,12 @@ public class SubfolderContentCreationStrategy extends DefaultContentCreationStra
         contentsCreated = 0;
         currentFolderIndex++;
       }
+
+      // Check in the created content
+      if (isCheckIn()) {
+        doCheckIn(createdContent);
+      }
+
     }
 
     return createdContent;
