@@ -16,6 +16,7 @@
         <entry key="ContentType" value-ref="creationStrategyBean"/>
         -->
         <entry key="CMArticle" value-ref="articleCreationStrategy"/>
+        <entry key="Template" value-ref="freemarkerTemplateCreationStrategy"/>
       </util:map>
     </property>
   </bean>
@@ -37,6 +38,14 @@
     <property name="folderStrategy" ref="defaultFolderStrategy"/>
     <property name="namingStrategy" ref="defaultNamingStrategy"/>
     <property name="checkIn" value="true"/>
+  </bean>
+
+  <!-- extends the defaultCreationStrategy to use an existing source directory for reference content -->
+  <bean name="defaultCreationFromSourceStrategy"
+        class="com.coremedia.contribution.contentcreator.strategy.DefaultContentCreationFromSourceStrategy"
+        parent="defaultCreationStrategy">
+    <property name="namingStrategy" ref="defaultSourceNamingStrategy"/>
+    <property name="sourceFolderStrategy" ref="defaultSourceFolderStrategy"/>
   </bean>
 
   <!-- Strategy used for article creation -->
@@ -68,6 +77,16 @@
   </bean>
 
   <!-- Add your custom content creation strategies here. -->
+  <!-- creation strategy for freemarker templates -->
+  <bean name="freemarkerTemplateCreationStrategy"
+        parent="defaultCreationFromSourceStrategy">
+    <property name="contentType" value="Template"/>
+    <property name="propertyPopulators">
+      <util:map>
+        <entry key="data" value-ref="freemarkerResourceBlobPropertyPopulator"/>
+      </util:map>
+    </property>
+  </bean>
 
 
   <!-- Folder strategies -->
@@ -79,9 +98,24 @@
     <property name="folderPropertiesTemplatePath" value="/performance-test/_assets/_folderProperties"/>
   </bean>
 
+  <!-- Source Folder strategies -->
+  <bean name="defaultSourceFolderStrategy" class="com.coremedia.contribution.contentcreator.strategy.DefaultSourceFolderStrategy">
+    <property name="folder" value="/generatedContent"/>
+  </bean>
 
   <!-- Naming strategies -->
   <bean name="defaultNamingStrategy" class="com.coremedia.contribution.contentcreator.strategy.DefaultNamingStrategy"/>
+  <!-- Naming strategy for existing content of a source directory -->
+  <bean name="defaultSourceNamingStrategy" class="com.coremedia.contribution.contentcreator.strategy.DefaultSourceNamingStrategy">
+    <property name="ignoreCase" value="false"/>
+    <property name="withoutFileType" value="true"/>
+    <property name="replaceAll">
+      <!-- use this map for patterns thet should be replaced -->
+      <util:map>
+        <!--<entry key="." value="#"/>-->
+      </util:map>
+    </property>
+  </bean>
 
 
   <!--
@@ -347,6 +381,12 @@
     <property name="contentType" value="text/plain"/>
     <property name="blobService" ref="blobService"/>
     <property name="resourcePath" value="file:/sample.txt"/>
+  </bean>
+
+  <!-- Blob property populators for freemarker templates -->
+  <bean name="freemarkerResourceBlobPropertyPopulator"
+        parent="fileResourceBlobPropertyPopulator">
+    <property name="contentType" value="text/freemarker"/>
   </bean>
 
   <bean name="flickrImagePropertyPopulator"

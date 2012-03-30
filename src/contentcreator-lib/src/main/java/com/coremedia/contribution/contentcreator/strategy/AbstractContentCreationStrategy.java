@@ -36,6 +36,11 @@ public abstract class AbstractContentCreationStrategy implements ContentCreation
   protected FolderStrategy folderStrategy;
 
   /**
+   * The folder strategy for source folder.
+   */
+  protected FolderStrategy sourceFolderStrategy;
+
+  /**
    * Mapping of property name to property populator.
    */
   protected Map<String, PropertyPopulator> propertyPopulators;
@@ -79,6 +84,24 @@ public abstract class AbstractContentCreationStrategy implements ContentCreation
     this.folderStrategy = folderStrategy;
   }
 
+  /**
+   * A sourceFolderStrategy is used to define a source directory to copy files from
+   *
+   * @return the sourceFolderStrategy
+   */
+  public FolderStrategy getSourceFolderStrategy() {
+    return sourceFolderStrategy;
+  }
+
+  /**
+   * Simple Setter for sourceFolderStrategy
+   *
+   * @param sourceFolderStrategy the sourceFolderStrategy
+   */
+  public void setSourceFolderStrategy(FolderStrategy sourceFolderStrategy) {
+    this.sourceFolderStrategy = sourceFolderStrategy;
+  }
+
   public Map<String, PropertyPopulator> getPropertyPopulators() {
     return propertyPopulators;
   }
@@ -100,7 +123,7 @@ public abstract class AbstractContentCreationStrategy implements ContentCreation
 
     Content folder = getContentRepository().getChild(folderPath);
     if (folder == null) {
-      // Folder noes not exist so we need to create it first
+      // Folder does not exist so we need to create it first
       folder = getContentRepository().createSubfolders(folderPath);
     }
 
