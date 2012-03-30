@@ -155,7 +155,9 @@ public class ContentCreator extends AbstractUAPIClient {
 
     contentCreationStrategy.getFolderStrategy().setBaseFolder(baseFolder);
     contentCreationStrategy.getFolderStrategy().setTotalCopies(numberOfCopies);
-    contentCreationStrategy.getSourceFolderStrategy().setBaseFolder(sourceFolder);
+    if (contentCreationStrategy.getSourceFolderStrategy() != null) {
+      contentCreationStrategy.getSourceFolderStrategy().setBaseFolder(sourceFolder);
+    }
 
 
     int copiesSoFar = 0;
@@ -163,7 +165,7 @@ public class ContentCreator extends AbstractUAPIClient {
     getOut().info("Starting content creation for type " + contentType + "." +
         "\n  Base folder:\t" + baseFolder +
         "\n  Copies:\t" + numberOfCopies +
-        "\n  Source folder:\t" +sourceFolder);
+        "\n  Source folder:\t" + sourceFolder);
     getOut().info("------------------------------------------------------------------------");
 
     while (copiesSoFar < numberOfCopies) {
