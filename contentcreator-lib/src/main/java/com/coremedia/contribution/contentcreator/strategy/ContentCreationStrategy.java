@@ -23,6 +23,14 @@ public interface ContentCreationStrategy {
   FolderStrategy getFolderStrategy();
   void setFolderStrategy(FolderStrategy folderStrategy);
 
+  /**
+   * A sourceFolderStrategy is used to define a source directory to copy files from
+   *
+   * @return the sourceFolderStrategy
+   */
+  FolderStrategy getSourceFolderStrategy();
+  void setSourceFolderStrategy(FolderStrategy sourceFolderStrategy);
+
   Map<String, PropertyPopulator> getPropertyPopulators();
   void setPropertyPopulators(Map<String, PropertyPopulator> propertyPopulators);
 

@@ -36,20 +36,24 @@ public class ContentCreator extends AbstractUAPIClient {
   /*
    * Option definitions
    */
-  private static final String OPTION_CONTENT_TYPE           = "t";
-  private static final String OPTION_CONTENT_TYPE_LONG      = "type";
-  private static final String OPTION_CONTENT_TYPE_DESCR     = "Content type";
-  private static final String OPTION_BASE_FOLDER            = "f";
-  private static final String OPTION_BASE_FOLDER_LONG       = "folder";
-  private static final String OPTION_BASE_FOLDER_DESCR      = "Base folder for the created content";
-  private static final String OPTION_NUMBER_OF_COPIES       = "c";
-  private static final String OPTION_NUMBER_OF_COPIES_LONG  = "copies";
-  private static final String OPTION_NUMBER_OF_COPIES_DESCR = "Number of copies";
+  private static final String OPTION_CONTENT_TYPE             = "t";
+  private static final String OPTION_CONTENT_TYPE_LONG        = "type";
+  private static final String OPTION_CONTENT_TYPE_DESCR       = "Content type";
+  private static final String OPTION_BASE_FOLDER              = "f";
+  private static final String OPTION_BASE_FOLDER_LONG         = "folder";
+  private static final String OPTION_BASE_FOLDER_DESCR        = "Base folder for the created content";
+  private static final String OPTION_NUMBER_OF_COPIES         = "c";
+  private static final String OPTION_NUMBER_OF_COPIES_LONG    = "copies";
+  private static final String OPTION_NUMBER_OF_COPIES_DESCR   = "Number of copies";
+  private static final String OPTION_SOURCE_FOLDER            = "s";
+  private static final String OPTION_SOURCE_FOLDER_LONG       = "source";
+  private static final String OPTION_SOURCE_FOLDER_DESCR      = "Source folder of the original content that shell be created";
 
   private String baseFolder;
   private String contentType;
   private int numberOfCopies;
   private StrategiesHolder strategiesHolder;
+  private String sourceFolder;
 
 
   /*
@@ -63,14 +67,16 @@ public class ContentCreator extends AbstractUAPIClient {
     options.addOption(OPTION_CONTENT_TYPE,  OPTION_CONTENT_TYPE_LONG,  true, OPTION_CONTENT_TYPE_DESCR);
     options.addOption(OPTION_BASE_FOLDER,   OPTION_BASE_FOLDER_LONG,   true, OPTION_BASE_FOLDER_DESCR);
     options.addOption(OPTION_NUMBER_OF_COPIES, OPTION_NUMBER_OF_COPIES_LONG, true, OPTION_NUMBER_OF_COPIES_DESCR);
+    options.addOption(OPTION_SOURCE_FOLDER, OPTION_SOURCE_FOLDER_LONG, true, OPTION_SOURCE_FOLDER_DESCR);
   }
 
   @Override
   protected String getUsage() {
     return "cm createcontent -u <user> [other options]"
-            + " -" + OPTION_CONTENT_TYPE     + " <" + OPTION_CONTENT_TYPE_LONG     + "> "
-            + "[-" + OPTION_BASE_FOLDER      + " <" + OPTION_BASE_FOLDER_LONG      + ">] "
-            + "[-" + OPTION_NUMBER_OF_COPIES + " <" + OPTION_NUMBER_OF_COPIES_LONG + ">] ";
+            + " -" + OPTION_CONTENT_TYPE      + " <" + OPTION_CONTENT_TYPE_LONG     + "> "
+            + "[-" + OPTION_BASE_FOLDER       + " <" + OPTION_BASE_FOLDER_LONG      + ">] "
+            + "[-" + OPTION_NUMBER_OF_COPIES  + " <" + OPTION_NUMBER_OF_COPIES_LONG + ">] "
+            + "[-" + OPTION_SOURCE_FOLDER     + " <" + OPTION_SOURCE_FOLDER_LONG    + ">] ";
   }
 
   @Override
@@ -92,6 +98,12 @@ public class ContentCreator extends AbstractUAPIClient {
     numberOfCopies = DEFAULT_NUMBER_OF_COPIES;
     if (commandLine.hasOption(OPTION_NUMBER_OF_COPIES)) {
       numberOfCopies = Integer.decode(commandLine.getOptionValue(OPTION_NUMBER_OF_COPIES));
+    }
+
+    // Parse source folder
+    sourceFolder = "";
+    if (commandLine.hasOption(OPTION_SOURCE_FOLDER)) {
+      sourceFolder = commandLine.getOptionValue(OPTION_SOURCE_FOLDER);
     }
 
     return true;
@@ -121,7 +133,8 @@ public class ContentCreator extends AbstractUAPIClient {
       String input = console.readLine(
           "Wow, seems like you want to create a lot of stuff here." +
           "\n  Are you sure you want to create " + numberOfCopies + " documents of type " + contentType +
-          "\n  in folder '" + baseFolder + "'?" +
+          "\n  in folder '" + baseFolder + "'" +
+          "\n  from source folder '" + sourceFolder + "'?" +
           "\n  Type 'yes' to proceed. [no] ");
       if (!input.toLowerCase().equals("yes") && !input.toLowerCase().equals("y")) {
         System.exit(0);
@@ -142,13 +155,15 @@ public class ContentCreator extends AbstractUAPIClient {
 
     contentCreationStrategy.getFolderStrategy().setBaseFolder(baseFolder);
     contentCreationStrategy.getFolderStrategy().setTotalCopies(numberOfCopies);
+    contentCreationStrategy.getSourceFolderStrategy().setBaseFolder(sourceFolder);
 
 
     int copiesSoFar = 0;
     getOut().info("------------------------------------------------------------------------");
     getOut().info("Starting content creation for type " + contentType + "." +
         "\n  Base folder:\t" + baseFolder +
-        "\n  Copies:\t" + numberOfCopies);
+        "\n  Copies:\t" + numberOfCopies +
+        "\n  Source folder:\t" +sourceFolder);
     getOut().info("------------------------------------------------------------------------");
 
     while (copiesSoFar < numberOfCopies) {
