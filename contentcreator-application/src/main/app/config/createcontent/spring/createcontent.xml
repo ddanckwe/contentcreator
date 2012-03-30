@@ -77,7 +77,7 @@
   </bean>
 
   <!-- Add your custom content creation strategies here. -->
-  <!-- creation strategy for freemarker templates -->
+  <!-- Example: Creation strategy for freemarker templates -->
   <bean name="freemarkerTemplateCreationStrategy"
         parent="defaultCreationFromSourceStrategy">
     <property name="contentType" value="Template"/>
