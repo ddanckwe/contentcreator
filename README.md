@@ -14,8 +14,8 @@ Run the following command from within the bin directory to create content.
       [other options]
 
 Available options:
-*    -c,--copies <arg> 	Number of copies
-*    -d,--domain <domain name> 	domain for login (default=<builtin>)
+*    -c,--copies \<arg\> 	Number of copies
+*    -d,--domain <domain name> 	domain for login (default=\<builtin\>)
 *    -f,--folder <arg> 	Base folder for the created content
 *    -p,--password <password> 	password for login
 *    -t,--type <arg> 	Content type
