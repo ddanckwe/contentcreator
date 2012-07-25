@@ -1,5 +1,0 @@
-# Java main class to call:
-JAVA_MAIN_CLASS=com.coremedia.contribution.contentcreator.ContentCreator
-
-# Debugger
-#JAVA_VM_ARGS="$JAVA_VM_ARGS -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"

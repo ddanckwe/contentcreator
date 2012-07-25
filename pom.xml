@@ -12,7 +12,7 @@
     Tool for automated content creation.
   </description>
 
-  <url>https://contributions.coremedia.com/shared/contentcreator</url>
+  <url>https://github.com/coremedia-contributions/contentcreator/wiki</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -34,9 +34,8 @@
   </modules>
 
   <scm>
-    <connection>scm:svn:https://contributions.coremedia.com/svn-shared/contentcreator/trunk/src</connection>
-    <developerConnection>scm:svn:https://contributions.coremedia.com/svn-shared/contentcreator/trunk/src</developerConnection>
-    <url>https://contributions.coremedia.com/svn-shared/contentcreator/trunk/src</url>
+    <connection>scm:git:git@github.com:coremedia-contributions/contentcreator.git</connection>
+    <developerConnection>scm:git:git@github.com:coremedia-contributions/contentcreator.git</developerConnection>
   </scm>
 
   <distributionManagement>
