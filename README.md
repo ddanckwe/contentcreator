@@ -40,10 +40,29 @@ Maven
 -----
 
 If you want to include the Content Creator contribution in your project you can use the the following Maven artifacts.
-Group ID 	Artifact ID 	Type
-com.coremedia.contribution.contentcreator 	contentcreator-application 	coremedia-application
-com.coremedia.contribution.contentcreator 	contentcreator-lib 	jar
-com.coremedia.contribution.contentcreator 	contentcreator 	pom
+
+<table>
+  <tr>
+    <td>Group ID</td>
+    <td>Artifact ID</td>
+    <td>Type</td>
+  </tr>
+  <tr>
+    <td>com.coremedia.contribution.contentcreator</td>
+    <td>contentcreator-application</td>
+    <td>coremedia-application</td>
+  </tr>
+  <tr>
+    <td>com.coremedia.contribution.contentcreator</td>
+    <td>contentcreator-lib</td>
+    <td>jar</td>
+  </tr>
+  <tr>
+    <td>com.coremedia.contribution.contentcreator</td>
+    <td>contentcreator</td>
+    <td>pom</td>
+  </tr>
+</table>
 
 
 Documentation
