@@ -15,12 +15,12 @@ Run the following command from within the bin directory to create content.
 
 Available options:
 *    -c,--copies \<arg\> 	Number of copies
-*    -d,--domain <domain name> 	domain for login (default=\<builtin\>)
-*    -f,--folder <arg> 	Base folder for the created content
-*    -p,--password <password> 	password for login
-*    -t,--type <arg> 	Content type
-*    -u,--user <user name> 	user for login (required)
-*    -url <ior url> 	url to connect to
+*    -d,--domain \<domain name\> 	domain for login (default=\<builtin\>)
+*    -f,--folder \<arg\> 	Base folder for the created content
+*    -p,--password \<password\> 	password for login
+*    -t,--type \<arg\> 	Content type
+*    -u,--user \<user name\> 	user for login (required)
+*    -url \<ior url\> 	url to connect to
 *    -v,--verbose 	enables verbose output
 *    -s,--source 	source folder of the original content that shall be created
 
