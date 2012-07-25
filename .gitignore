@@ -1,0 +1,22 @@
+# exclude patterns (uncomment them if you want to use them):
+# *.[oa]
+*~
+# idea:
+*.iml
+*.ipr
+*.iws
+.idea/
+atlassian-ide-plugin.xml
+# maven:
+target/
+overlays/
+# eclipse:
+.classpath
+.project
+.metadata
+.settings/
+# Logging:
+*.log
+*.out
+# Sonar:
+.sonar-ide.properties
