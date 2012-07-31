@@ -33,8 +33,8 @@
   </modules>
 
   <scm>
-    <connection>scm:git:git@github.com:coremedia-contributions/contentcreator.git</connection>
-    <developerConnection>scm:git:git@github.com:coremedia-contributions/contentcreator.git</developerConnection>
+    <connection>scm:git:git@github.com:ddanckwe/contentcreator.git</connection>
+    <developerConnection>scm:git:git@github.com:ddanckwe/contentcreator.git</developerConnection>
   </scm>
 
   <distributionManagement>
